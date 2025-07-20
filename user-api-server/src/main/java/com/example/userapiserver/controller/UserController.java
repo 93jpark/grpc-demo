@@ -9,7 +9,7 @@ public class UserController {
 
     @GetMapping
     public User getUser() {
-        User user = new User(1L, "john_doe", "john.doe@example.com");
+        User user = new User(1, "john_doe", "john.doe@example.com");
         return user;
     }
 

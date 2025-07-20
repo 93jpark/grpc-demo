@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = 'com.example.grpc'; // .proto 파일로 생성될 클래스 파일이 위치할 패키지
+option java_outer_classname = "UserProto"; // .proto 파일로 생성될 클래스 파일명
+
+service User {
+  rpc GetUserInfo(GetUserInfoRequest) returns (UserResponse);
+  rpc CreateUser(CreateUserRequest) returns (UserResponse);
+  rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
+  rpc DeleteUser(DeleteUserRequest) returns (UserResponse);
+}
+
+message GetUserInfoRequest {
+  int32 user_id = 1; // 사용자 ID
+  string username = 2; // 사용자 이름
+  string email = 3; // 사용자 이메일
+}
+
+message CreateUserRequest {
+  string username = 1; // 사용자 이름
+  string email = 2; // 사용자 이메일
+}
+
+message UpdateUserRequest {
+  int32 user_id = 1; // 사용자 ID
+  string username = 2; // 사용자 이름
+  string email = 3; // 사용자 이메일
+}
+
+message DeleteUserRequest {
+  int32 user_id = 1; // 사용자 ID
+}
+
+message UserResponse {
+  int32 user_id = 1; // 사용자 ID
+  string username = 2; // 사용자 이름
+  string email = 3; // 사용자 이메일
+}
