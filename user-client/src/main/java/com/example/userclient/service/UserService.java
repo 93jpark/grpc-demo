@@ -4,10 +4,10 @@ public interface UserService {
 
     void createUser(String username, String email);
 
-    void getUserInfo(int userId);
+    void getUserInfo(Integer userId);
 
-    void updateUser(int userId, String username, String email);
+    void updateUser(Integer userId, String username, String email);
 
-    void deleteUser(int userId);
+    void deleteUser(Integer userId);
 
 }
