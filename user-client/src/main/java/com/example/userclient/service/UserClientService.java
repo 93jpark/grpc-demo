@@ -6,8 +6,17 @@ import com.example.grpc.GetUserInfoRequest;
 import com.example.grpc.UpdateUserRequest;
 import com.example.grpc.UserGrpc;
 import com.example.grpc.UserResponse;
+import jakarta.annotation.PostConstruct;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class UserClientService implements UserService {
@@ -54,5 +63,15 @@ public class UserClientService implements UserService {
         UserResponse response = stub.deleteUser(request);
         System.out.println(response);
     }
+
+    public String getUserInfoAndGetMessage(Integer userId) {
+        GetUserInfoRequest request = GetUserInfoRequest.newBuilder()
+                .setUserId(userId)
+                .build();
+        UserResponse response = stub.getUserInfo(request);
+        // 간단하게 json/문자열 형태로 변환 (실제 포맷은 필요에 맞게)
+        return String.format("id:%d, name:%s, email:%s", response.getUserId(), response.getUsername(), response.getEmail());
+    }
+
 
 }

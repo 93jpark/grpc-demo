@@ -14,6 +14,24 @@ public class UserService extends UserGrpc.UserImplBase {
     private final Map<Integer, User> userRepository;
     private Integer incrementer = 0;
 
+    @Override
+    public void streamUserMessages(GetStreamMessage request, StreamObserver<StreamMessage> responseObserver) {
+        String subscriber = request.getSubscriber();
+
+        for (int i = 0; i < 100; i++) { // 예시로 10회 반복
+            StreamMessage response = StreamMessage.newBuilder()
+                    .setMessage("message " + i)
+                    .build();
+            responseObserver.onNext(response);
+
+            try {
+                Thread.sleep(1000); // 1초마다 전송
+            } catch (InterruptedException ignored) {}
+        }
+        responseObserver.onCompleted();
+
+    }
+
     public UserService() {
         HashMap<Integer, User> userRepository = new HashMap<>();
         userRepository.put(1, new User(1, "john_doe", "john.doe@gmail.com"));

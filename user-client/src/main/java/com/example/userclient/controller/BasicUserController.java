@@ -1,5 +1,6 @@
 package com.example.userclient.controller;
 
+import com.example.userclient.service.SseService;
 import com.example.userclient.service.UserClientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -7,12 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 @RestController
 @RequiredArgsConstructor
 public class BasicUserController {
 
     private final UserClientService userService;
+    private final SseService sseService;
 
     @PostMapping("/create")
     public void createUser() {
@@ -33,5 +36,11 @@ public class BasicUserController {
     public void deleteUser() {
         userService.deleteUser(1);
     }
+
+    @GetMapping("/sse/stream")
+    public SseEmitter streamSse() {
+        return this.sseService.subscribe();
+    }
+
 
 }
